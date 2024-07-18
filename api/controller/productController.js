@@ -3,17 +3,16 @@ import Product from "../models/Product.js";
 
 //only admins can create products remember 
 export const addProduct = async (req, res) => {
-    const { title, description, price, quantity } = req.body;
+    const { title, description, price, quantity, category } = req.body;
     try {
-        if (!title || !description || !price) {
+        if (!title || !description || !price || !category) {
             return res.status(400).json({ message: "Please fill all the fields" })
         }
 
         const product = await Product.create({
             title, description, price,
-
-            quantity: quantity ?? 1
-
+            quantity: quantity ?? 1,
+            category
         });
         res.status(200).json({
             status: true,
@@ -38,8 +37,24 @@ export const addProduct = async (req, res) => {
 //get all Products 
 
 export const getAllProducts = async (req, res) => {
+    const { price, category, rating } = req.query;
+    const query = {};
     try {
-        const products = await Product.find();
+        if (price) {
+            query.price = { $gt: parseInt() }
+        }
+        if (category) {
+            query.category = category;
+        }
+        if (rating) {
+            query.rating = { $gte: parseInt(rating) };
+        }
+
+        let products;
+        if (query) {
+            products = await Product.find(query).populate("reviews");
+        } else products = await Product.find();
+
         res.status(200).json({
             status: true,
             message: "Products fetched successfully",
@@ -90,9 +105,9 @@ export const productDetails = async (req, res) => {
 //update the product 
 export const updateProduct = async (req, res) => {
     const prodId = req.params.id;
-    const { title, description, price } = req.body;
+    const { title, description, price ,category} = req.body;
     try {
-        if (!title || !description || !price) {
+        if (!title || !description || !price || category) {
             return res.status(400).json({
                 status: false,
                 message: "Product name, description and price are required"
