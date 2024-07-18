@@ -17,7 +17,7 @@ Delete Product (DELETE /products/:id) - Only admins can delete a product.
 
 reviewRouter.post("/products/:id/addReview",isAuthenticated,isAuthorized(["member","admin"]),addReview);
 reviewRouter.get("/products/:id/getReview",isAuthenticated,isAuthorized(["admin","member"]),getAllReviews);
-reviewRouter.put("/products/:productId/reviews/:reviewId",isAuthenticated,isAuthorized(["member"]),updateReview);
-reviewRouter.delete("/products/:productId/reviews/:reviewId",isAuthenticated,isAuthorized(["member"]),deleteReview);
+reviewRouter.put("/products/:productId/updateReview/:reviewId",isAuthenticated,isAuthorized(["member","admin"]),updateReview);
+reviewRouter.delete("/products/:productId/deleteReview/:reviewId",isAuthenticated,isAuthorized(["member","admin"]),deleteReview);
 
 export default reviewRouter;
