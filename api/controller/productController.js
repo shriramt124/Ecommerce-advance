@@ -1,7 +1,7 @@
 import Product from "../models/Product.js";
-
-
+ 
 //only admins can create products remember 
+
 export const addProduct = async (req, res) => {
     const { title, description, price, quantity, category } = req.body;
     try {
@@ -37,11 +37,13 @@ export const addProduct = async (req, res) => {
 //get all Products 
 
 export const getAllProducts = async (req, res) => {
-    const { price, category, rating } = req.query;
+    const { price, category, rating, quantity, limit, page } = req.query;
     const query = {};
+
     try {
+
         if (price) {
-            query.price = { $gt: parseInt() }
+            query.price = { $gt: parseInt(price) };
         }
         if (category) {
             query.category = category;
@@ -49,26 +51,39 @@ export const getAllProducts = async (req, res) => {
         if (rating) {
             query.rating = { $gte: parseInt(rating) };
         }
+        if (quantity) {
+            query.quantity = { $gte: parseInt(quantity) };
+        }
+        const limitValue = parseInt(limit) || 10;
+        const pageValue = parseInt(page) || 1;
+        const skipValue = (pageValue - 1) * limitValue;
+        const products = await Product.find(query)
+       .populate("reviews")
+       .skip(skipValue)
+       .limit(limitValue);
 
-        let products;
-        if (query) {
-            products = await Product.find(query).populate("reviews");
-        } else products = await Product.find();
+    const totalCount = await Product.countDocuments(query);
+    const totalPages = Math.ceil(totalCount / limitValue);
 
-        res.status(200).json({
-            status: true,
-            message: "Products fetched successfully",
-            data: products
-        })
+   return res.status(200).json({
+        status: true,
+        message: "Products fetched successfully",
+        data: products,
+        pagination: {
+          total: totalCount,
+          limit: limitValue,
+          page: pageValue,
+          pages: totalPages,
+        },
+      });
     } catch (error) {
         return res.status(500).json({
             status: false,
             message: error.message,
-            stack: error.stack
-        })
+            stack: error.stack,
+        });
     }
-}
-
+};
 //get the single Product
 
 export const productDetails = async (req, res) => {
@@ -105,7 +120,7 @@ export const productDetails = async (req, res) => {
 //update the product 
 export const updateProduct = async (req, res) => {
     const prodId = req.params.id;
-    const { title, description, price ,category} = req.body;
+    const { title, description, price, category } = req.body;
     try {
         if (!title || !description || !price || category) {
             return res.status(400).json({
