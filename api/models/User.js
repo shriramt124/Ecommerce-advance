@@ -2,6 +2,7 @@ import mongoose, { mongo, Schema } from "mongoose";
 import validator from "validator";
 
 
+
 const userSchema = mongoose.Schema({
     username: {
         type: String,
@@ -9,7 +10,7 @@ const userSchema = mongoose.Schema({
         minLength: [4, "username can not less than 4"],
         maxLength: [10, "username can not more than 10"],
 
-    }, 
+    },
     email: {
         type: String,
         required: [true, 'email is required'],
@@ -33,7 +34,7 @@ const userSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        default:"member"
+        default: "member"
     },
     gender: {
         type: String,
@@ -44,6 +45,12 @@ const userSchema = mongoose.Schema({
     },
     photo: {
         type: String
+    },
+    cart: {
+
+        type: mongoose.Types.ObjectId,
+        ref: "Cart"
+
     }
 
 })

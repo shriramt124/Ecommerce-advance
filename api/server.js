@@ -6,6 +6,7 @@ import dbConnect from "./utils/dbConnect.js";
 import userRouter from "./routes/userRouter.js";
 import productRoutes from "./routes/productRoutes.js";
 import reviewRouter from "./routes/reviewRoute.js";
+import cartRouter from "./routes/cartRoutes.js";
 const app = express();
 
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/user",userRouter);
 app.use("/api/product",productRoutes);
 app.use("/api/reviews",reviewRouter);
+app.use("/api/cart",cartRouter);
 
 
 
