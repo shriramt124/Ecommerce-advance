@@ -78,7 +78,7 @@ export const productDetails = async (req, res) => {
             data: product
         })
 
-    } catch (error) { 
+    } catch (error) {
         return res.status(500).json({
             status: false,
             message: error.message,
@@ -90,13 +90,21 @@ export const productDetails = async (req, res) => {
 //update the product 
 export const updateProduct = async (req, res) => {
     const prodId = req.params.id;
+    const { title, description, price } = req.body;
     try {
+        if (!title || !description || !price) {
+            return res.status(400).json({
+                status: false,
+                message: "Product name, description and price are required"
+            })
+        }
         if (!prodId) {
             return res.status(400).json({
                 status: false,
                 message: "Product id is required"
             })
         }
+
         const product = await Product.findById(prodId);
         if (!product) {
             return res.status(404).json({
@@ -127,14 +135,15 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     const prodId = req.params.id;
 
-    if (!prodId) {
-        return res.status(400).json({
-            status: false,
-            message: "Product id is required"
-        });
-    }
-
     try {
+
+        if (!prodId) {
+            return res.status(400).json({
+                status: false,
+                message: "Product id is required"
+            });
+        }
+
         const deletedProduct = await Product.findByIdAndDelete(prodId);
 
         if (!deletedProduct) {

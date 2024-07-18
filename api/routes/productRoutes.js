@@ -18,7 +18,7 @@ Delete Product (DELETE /products/:id) - Only admins can delete a product.
 productRoutes.post("/addProducts",isAuthenticated,isAuthorized(["admin"]),addProduct);
 productRoutes.get("/getAllProducts",isAuthenticated,getAllProducts);
 productRoutes.get("/productDetail/:id",isAuthenticated,isAuthorized(["admin","member"]),productDetails);
-productRoutes.put("/updateProduct/:id",isAuthenticated,isAuthorized(["amdin"]),updateProduct);
+productRoutes.put("/updateProduct/:id",isAuthenticated,isAuthorized(["admin"]),updateProduct);
 productRoutes.delete("/deleteProduct/:id",isAuthenticated,isAuthorized(["admin"]),deleteProduct);
 
 
