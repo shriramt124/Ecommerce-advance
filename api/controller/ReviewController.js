@@ -117,80 +117,91 @@ export const updateReview = async (req, res) => {
     const reviewData = req.body;
 
     try {
-        
-
-            const review = await Review.findById(reviewId);
-            //check if the review exists
-            if (!(review)) {
-                return res.status(404).json({
-                    status: false,
-                    message: "Review not found"
-                })
-            }
-            //check if the user updating the review is same as the review's author 
-            if (review.user.toString() !== req.user._id.toString()) {
-                return res.status(403).json({
-                    status: false,
-                    message: "You are not authorized to update this review"
-                })
-            }
-            //update the review with the new data
-            review.rating = reviewData.rating;
-            review.text = reviewData.text;
-
-            await review.save();
-            //send the response
-            res.status(200).json({
-                status: true,
-                message: "Review updated successfully",
-                data: review
-            })
 
 
-
-        } catch (error) {
-            return res.status(500).json({
+        const review = await Review.findById(reviewId);
+        //check if the review exists
+        if (!(review)) {
+            return res.status(404).json({
                 status: false,
-                message: error.message,
-                stack: error.stack
+                message: "Review not found"
             })
         }
+        //check if the user updating the review is same as the review's author 
+        if (review.user.toString() !== req.user._id.toString()) {
+            return res.status(403).json({
+                status: false,
+                message: "You are not authorized to update this review"
+            })
+        }
+        //update the review with the new data
+        review.rating = reviewData.rating;
+        review.text = reviewData.text;
+
+        await review.save();
+        //send the response
+        res.status(200).json({
+            status: true,
+            message: "Review updated successfully",
+            data: review
+        })
+
+
+
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message,
+            stack: error.stack
+        })
     }
+}
 
 //delete the review
 export const deleteReview = async (req, res) => {
-        //get the review id  and product id from the params
-        const reviewId = req.params.reviewId;
-        const productId = req.params.productId;
-        //check if the review exists
-        try {
-            const review = await Review.findById({ _id: reviewId })
-            if (!(review)) {
-                return res.status(404).json({
-                    status: false,
-                    message: "Review not found"
-                })
-            }
-            //check if the user deleting the review is same as the review's author
-            if (review.user.toString() !== req.user._id.toString()) {
-                return res.status(403).json({
-                    status: false,
-                    message: "You are not authorized to delete this review"
-                })
-            }
-            //delete the review
-            await Review.findByIdAndDelete(reviewId);
-            //send the response
-            res.status(200).json({
-                status: true,
-                message: "Review deleted successfully"
-            })
-        } catch (error) {
-            return res.status(500).json({
+    //get the review id  and product id from the params
+    const reviewId = req.params.reviewId;
+    const productId = req.params.productId;
+    //check if the review exists
+    try {
+
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
+        const review = await Review.findById({ _id: reviewId })
+        if (!(review)) {
+            return res.status(404).json({
                 status: false,
-                message: error.message,
-                stack: error.stack
+                message: "Review not found"
             })
         }
+        //check if the user deleting the review is same as the review's author
+        if (review.user.toString() !== req.user._id.toString()) {
+            return res.status(403).json({
+                status: false,
+                message: "You are not authorized to delete this review"
+            })
+        }
+        //delete the review
+        await Review.findByIdAndDelete(reviewId);
+        // Remove the review from the product's reviews array
+        product.reviews.pull(reviewId);
+        await product.save();
+        //send the response
+        res.status(200).json({
+            status: true,
+            message: "Review deleted successfully"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message,
+            stack: error.stack
+        })
     }
+}
 
