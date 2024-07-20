@@ -43,7 +43,11 @@ function Navbar() {
       </div>
       <div className="categories flex justify-center gap-4 bg-yellow-500 text-slate-200 p-2 shadow-sm shadow-orange-500 overflow-x-auto">
         {category.map((name) => (
-          <Link to="/" className={linkStyle} key={Math.random() * Math.random()}>
+          <Link
+            to="/"
+            className={linkStyle}
+            key={Math.random() * Math.random()}
+          >
             {name}
           </Link>
         ))}

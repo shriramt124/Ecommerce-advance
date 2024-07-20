@@ -1,4 +1,4 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 dotenv.config();
 import rateLimit from "express-rate-limit"
 import express from "express"
@@ -7,25 +7,32 @@ import userRouter from "./routes/userRouter.js";
 import productRoutes from "./routes/productRoutes.js";
 import reviewRouter from "./routes/reviewRoute.js";
 import cartRouter from "./routes/cartRoutes.js";
-import cors from "cors"
+
+
+
 const app = express();
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
     delayMs: 0 // disable delaying - full speed until the max limit is reached
 });
-const corsOption = cors({
+
+
+/* const corsOption = cors({
     origin:"http://localhost:5173",
     credentials: true,
 
 })
-app.use(cors(corsOption));
+
+app.use(cors(corsOption)); */
 //parsing the req body 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 
 
 
+ 
 app.use("/api/user", userRouter);
 app.use("/api/product", productRoutes);
 app.use("/api/reviews", reviewRouter);

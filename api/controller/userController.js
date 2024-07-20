@@ -33,14 +33,14 @@ export const register = async (req, res) => {
             password: hashedPassword,
             role: role ?? "member"
         })
-       
+
         return res.status(200).json({
             status: true,
             message: "User created SuccessFully",
             data: user
         })
 
-      
+
 
     } catch (error) {
         return res.status(500).json({
@@ -83,7 +83,7 @@ export const login = async (req, res) => {
                 expiresIn: "1d"
             }
         )
-       return res.status(200).json({
+        return res.status(200).json({
             status: true,
             message: "User logged in successfully",
             data: existingUser,
@@ -92,12 +92,48 @@ export const login = async (req, res) => {
 
 
     } catch (error) {
-    return res.status(500).json({
-        status:false,
-        message: error.message
-    })
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        })
     }
 }
 
- 
 
+
+
+export const updateProfile = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(401).json({
+                status: false,
+                message: "No file uploaded"
+            })
+        }
+
+        const userId = req.user._id;
+        const updates = { ...req.body }; // get all updates from req.body
+        if (req.file) {
+            updates.photo = req.file.path; // add the profile picture update
+        }
+
+        const user = await User.findByIdAndUpdate(userId, updates, { new: true });
+
+
+
+        return res.status(200).json({
+            status: true,
+            message: "Profile updated successfully",
+            data: user
+        })
+
+
+
+    } catch (error) {
+        res.status(500).json({
+            status: false,
+            message: error.message,
+            stack: error.stack
+        })
+    }
+}
