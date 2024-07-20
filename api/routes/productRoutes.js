@@ -2,6 +2,7 @@ import express from "express";
 import { addProduct, deleteProduct, getAllProducts, productDetails, updateProduct } from "../controller/productController.js";
 import { isAuthenticated, isAuthorized } from './../middlewares/authMiddleware.js';
 const productRoutes = express.Router();
+import { uploader } from "../utils/multer.js";
 /* 
 Add Product (POST /products) - Only admins can create products.
 Get All Products (GET /products) - Both admins and members can access this route to view all the products available on the website.
@@ -15,10 +16,10 @@ Delete Product (DELETE /products/:id) - Only admins can delete a product.
 */
 
 //add the review
-productRoutes.post("/addProducts",isAuthenticated,isAuthorized(["admin"]),addProduct);
+productRoutes.post("/addProducts",uploader.array('prodImage'),isAuthenticated,isAuthorized(["admin"]),addProduct);
 productRoutes.get("/getAllProducts",isAuthenticated,getAllProducts);
 productRoutes.get("/productDetail/:id",isAuthenticated,isAuthorized(["admin","member"]),productDetails);
-productRoutes.put("/updateProduct/:id",isAuthenticated,isAuthorized(["admin"]),updateProduct);
+productRoutes.put("/updateProduct/:id",uploader.array('prodImage'),isAuthenticated,isAuthorized(["admin"]),updateProduct);
 productRoutes.delete("/deleteProduct/:id",isAuthenticated,isAuthorized(["admin"]),deleteProduct);
 
 

@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
     cloudinary,
     allowedFormats:['jpg','jpeg',"png"],
     params:{
-        folder:"testing",
+        folder:"ecom",
         transformations:[{width:500,height:500,crop:"limit"}]
     }
 }) 

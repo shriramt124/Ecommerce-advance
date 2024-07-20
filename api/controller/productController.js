@@ -1,10 +1,20 @@
 import Product from "../models/Product.js";
- 
+
+import { v2 as cloudinary } from 'cloudinary';
 //only admins can create products remember 
 
 export const addProduct = async (req, res) => {
+
     const { title, description, price, quantity, category } = req.body;
+
     try {
+        if (!req.files) {
+            return res.status(400).json({
+                status: false,
+                message: "No file uploaded"
+            })
+        }
+
         if (!title || !description || !price || !category) {
             return res.status(400).json({ message: "Please fill all the fields" })
         }
@@ -14,14 +24,16 @@ export const addProduct = async (req, res) => {
             quantity: quantity ?? 1,
             category
         });
+        const urls = req.files;
+        urls.forEach((file) => {
+            product.prodImage.push(file.path);
+        })
+        await product.save();
         res.status(200).json({
             status: true,
             message: "Product added successfully",
             data: product
         })
-
-
-
     } catch (error) {
         return res.status(500).json({
             status: false,
@@ -58,24 +70,24 @@ export const getAllProducts = async (req, res) => {
         const pageValue = parseInt(page) || 1;
         const skipValue = (pageValue - 1) * limitValue;
         const products = await Product.find(query)
-       .populate("reviews")
-       .skip(skipValue)
-       .limit(limitValue);
+            .populate("reviews")
+            .skip(skipValue)
+            .limit(limitValue);
 
-    const totalCount = await Product.countDocuments(query);
-    const totalPages = Math.ceil(totalCount / limitValue);
+        const totalCount = await Product.countDocuments(query);
+        const totalPages = Math.ceil(totalCount / limitValue);
 
-   return res.status(200).json({
-        status: true,
-        message: "Products fetched successfully",
-        data: products,
-        pagination: {
-          total: totalCount,
-          limit: limitValue,
-          page: pageValue,
-          pages: totalPages,
-        },
-      });
+        return res.status(200).json({
+            status: true,
+            message: "Products fetched successfully",
+            data: products,
+            pagination: {
+                total: totalCount,
+                limit: limitValue,
+                page: pageValue,
+                pages: totalPages,
+            },
+        });
     } catch (error) {
         return res.status(500).json({
             status: false,
@@ -134,7 +146,6 @@ export const updateProduct = async (req, res) => {
                 message: "Product id is required"
             })
         }
-
         const product = await Product.findById(prodId);
         if (!product) {
             return res.status(404).json({
@@ -143,9 +154,17 @@ export const updateProduct = async (req, res) => {
                 message: "Product not found"
             })
         }
+
         const updatedProduct = await Product.findByIdAndUpdate(prodId, req.body, {
             new: true
         });
+
+        if (req.files) {
+            req.files.forEach((file) => {
+                updatedProduct.prodImage.push(file.path);
+            })
+        }
+        await updatedProduct.save();
         res.status(200).json({
             status: true,
             message: "Product updated successfully",
@@ -173,19 +192,33 @@ export const deleteProduct = async (req, res) => {
                 message: "Product id is required"
             });
         }
-
-        const deletedProduct = await Product.findByIdAndDelete(prodId);
-
-        if (!deletedProduct) {
+        const product = await Product.findById(prodId);
+        if (!product) {
             return res.status(404).json({
                 status: false,
                 message: "Product not found"
-            });
+
+
+            })
         }
+        if (product.prodImage) {
+            product.prodImage.forEach((image) => {
+                const publicId = image.split("/").pop().split('.')[0];
+                console.log(publicId);
+                cloudinary.uploader.destroy(publicId,(result)=>{
+                    console.log(result);
+                });
+            })
+        };
+        const deletedProduct = await Product.deleteOne({ _id: product._id });
+
+
+
 
         res.status(200).json({
             status: true,
-            message: "Product deleted successfully"
+            message: "Product deleted successfully",
+            data: deletedProduct
         });
     } catch (error) {
         console.error(error); // log the error

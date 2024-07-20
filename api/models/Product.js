@@ -18,12 +18,12 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
-    imageSrc: {
+    prodImage: [
+        {type: String}
+    ],
+    category: {
         type: String,
-    },
-    category:{
-      type:String,
-      required:true,
+        required: true,
     },
     createdAt: {
         type: Date,
@@ -36,14 +36,14 @@ const productSchema = new mongoose.Schema({
         }
     ]
 },
-{
-    timestamps:true
-})
+    {
+        timestamps: true
+    })
 
- 
+
 productSchema.plugin(mongoosePaginate);
 
-const Product =  mongoose.model('Product', productSchema);
+const Product = mongoose.model('Product', productSchema);
 
 
 export default Product;
