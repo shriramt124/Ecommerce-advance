@@ -205,7 +205,7 @@ export const deleteProduct = async (req, res) => {
             product.prodImage.forEach((image) => {
                 const publicId = image.split("/").pop().split('.')[0];
                 console.log(publicId);
-                cloudinary.uploader.destroy(publicId,(result)=>{
+                cloudinary.uploader.destroy(publicId, (result) => {
                     console.log(result);
                 });
             })

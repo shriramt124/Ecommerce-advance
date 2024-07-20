@@ -4,7 +4,7 @@ import Linkui from "./Linkui.jsx";
 
 console.log(category);
 function Navbar() {
-  const linkStyle = `p-2 capitalize font-semibold cursor-pointer hover:text-white text-[20px]`;
+  const linkStyle = `p-2 capitalize font-semibold cursor-pointer hover:text-white text-[20px] relative`;
   const LinkClasses = `capitalize hover:text-yellow-500  transition-all duration-500`;
   return (
     <nav>
@@ -41,7 +41,7 @@ function Navbar() {
           <Link className={LinkClasses}>profile</Link>
         </div>
       </div>
-      <div className="categories flex justify-center gap-4 bg-yellow-500 text-slate-200 p-2 shadow-sm shadow-orange-500 overflow-x-auto">
+      <div className=" sticky top-0 categories flex justify-center gap-4 bg-yellow-500 text-slate-200 p-2 shadow-sm shadow-orange-500 overflow-x-auto">
         {category.map((name) => (
           <Link
             to="/"

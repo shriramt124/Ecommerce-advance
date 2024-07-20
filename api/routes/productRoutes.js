@@ -17,7 +17,7 @@ Delete Product (DELETE /products/:id) - Only admins can delete a product.
 
 //add the review
 productRoutes.post("/addProducts",uploader.array('prodImage'),isAuthenticated,isAuthorized(["admin"]),addProduct);
-productRoutes.get("/getAllProducts",isAuthenticated,getAllProducts);
+productRoutes.get("/getAllProducts",getAllProducts);
 productRoutes.get("/productDetail/:id",isAuthenticated,isAuthorized(["admin","member"]),productDetails);
 productRoutes.put("/updateProduct/:id",uploader.array('prodImage'),isAuthenticated,isAuthorized(["admin"]),updateProduct);
 productRoutes.delete("/deleteProduct/:id",isAuthenticated,isAuthorized(["admin"]),deleteProduct);

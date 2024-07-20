@@ -7,6 +7,7 @@ import userRouter from "./routes/userRouter.js";
 import productRoutes from "./routes/productRoutes.js";
 import reviewRouter from "./routes/reviewRoute.js";
 import cartRouter from "./routes/cartRoutes.js";
+import cors from "cors";
 
 
 
@@ -17,14 +18,13 @@ const limiter = rateLimit({
     delayMs: 0 // disable delaying - full speed until the max limit is reached
 });
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 
-/* const corsOption = cors({
-    origin:"http://localhost:5173",
-    credentials: true,
-
-})
-
-app.use(cors(corsOption)); */
 //parsing the req body 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,7 +32,7 @@ app.use(limiter);
 
 
 
- 
+
 app.use("/api/user", userRouter);
 app.use("/api/product", productRoutes);
 app.use("/api/reviews", reviewRouter);
