@@ -7,7 +7,11 @@
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:{
+        'hero': "url('bg.jpg')",
+      }
+    },
   },
   plugins: [],
 })
