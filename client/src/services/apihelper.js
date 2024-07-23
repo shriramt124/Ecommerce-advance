@@ -1,19 +1,24 @@
 
 
 export const login = async (username, password) => {
-    const res = await fetch("http://localhost:8000/api/user/login", {
+    try {
+         const res = await fetch("http://localhost:8000/api/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
     })
     const data = await res.json()
-     
     if (!res.ok) {
-        throw Error("failed to login")
-    }
+      
+        throw Error(data.message);
+    } 
     localStorage.setItem('token',data.token);
-
     return data;
+ 
+    } catch (error) {
+        throw Error(error.message);
+    }
+   
 
 }
 export const signup = async (newuser) => {

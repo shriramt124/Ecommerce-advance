@@ -1,7 +1,18 @@
- 
+import React from 'react'
+import { Link, useNavigate, useRouteError } from 'react-router-dom';
+
 function Error() {
+  const error = useRouteError()
+  const navigate = useNavigate()
+ 
   return (
-    <div>Error</div>
+    <div>
+      <h1>Something went wrong 😢</h1>
+      <p>{error.data || error.message}</p>
+      
+      <Link  onClick={() => navigate(-1)} >&larr; Go back</Link>
+      
+    </div>
   )
 }
 

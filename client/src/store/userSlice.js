@@ -1,8 +1,8 @@
-import {createSlice} from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit";
 
-const initialData = {
+const initialState = {
     username:"",
-    status:"idle",
+    
     address:"",
     position:"",
     error:"",
@@ -13,24 +13,25 @@ const initialData = {
 
 const userSlice = createSlice({
     name:"user",
-    initialSate:initialData,
+    initialState,
     reducers:{
-        login:(state,action)=>{
+        loginUser(state,action){
             state.username = action.payload;
             state.isLoggedIn = true;
            
         },
-        logout:(state,action)=>{
+        logoutUser(state,action){
             state.isLoggedIn = false,
             state.username = null;
         },
-        updateProfile:(state,action)=>{
-            state.username = action.paylod;
+        updateProfileUser(state,action){
+            state.username = action.payload;
 
         }
     }
 })
 
-export const {login,logout,updateProfile} = userSlice.actions;
+export const {loginUser,logoutUser,updateProfileUser} = userSlice.actions;
+
 
 export default userSlice.reducer;

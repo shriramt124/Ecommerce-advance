@@ -1,6 +1,25 @@
-import { Link } from "react-router-dom";
+import { Children, useState } from "react";
+import { Link, redirect, useRouteError} from "react-router-dom";
+ import { Form } from "react-router-dom";
+import { login } from "../services/apihelper";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../store/userSlice";
+import store from "../store/store";
  
 const Login = () => {
+ 
+  const [formdata,setformdata] = useState({
+    username:"",
+    password:"",
+
+  });
+  
+  function handleformdata(e){
+     setformdata({
+      ...formdata,
+      [e.target.name]:e.target.value
+     })
+  }
   return (
     <div className="flex bg-pink-200 w-full justify-center items-center">
       <div className=" shadow-md shadow-slate-400 h-[600px] md:h-[700px] w-full p-10 flex justify-center ">
@@ -26,6 +45,8 @@ const Login = () => {
               type="text"
               name="username"
               id="username"
+              value={formdata.username}
+              onChange={handleformdata}
               placeholder="enter username or email"
               className="p-2 rounded-md focus:bg-white bg-slate-100 border-2 border-pink-400  "
             />
@@ -41,6 +62,11 @@ const Login = () => {
               className="p-2 rounded-md focus:bg-white bg-slate-100 border-2 border-pink-400  "
               type="password"
               placeholder="enter password .."
+              name="password"
+              id="password"
+              value={formdata.password}
+              onChange={handleformdata}
+
             />
           </div>
           <div className="text-center">
@@ -63,5 +89,16 @@ const Login = () => {
     </div>
   );
 };
+
+export async function action({request}){
+  const formData = await request.formData();
+const data  = Object.fromEntries(formData);
+const {username,password} = data;
+const loginResponse =await login(username,password);
+console.log(loginResponse.data)
+ store.dispatch(loginUser(username))
+ 
+  return redirect("/allProducts");
+}
 
 export default Login;
