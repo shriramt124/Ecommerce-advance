@@ -103,6 +103,7 @@ export const login = async (req, res) => {
 
 
 export const updateProfile = async (req, res) => {
+    console.log(req.file)
     try {
         if (!req.file) {
             return res.status(401).json({

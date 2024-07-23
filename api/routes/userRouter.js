@@ -28,6 +28,7 @@ userRouter.get("/currentUser",isAuthenticated,async (req,res)=>{
     }
 })
 
+ 
 userRouter.post("/update-profile", isAuthenticated, uploader.single("image"), updateProfile )
 
 export default userRouter;

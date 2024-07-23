@@ -22,7 +22,7 @@ import { loader as productLoader } from "./pages/AllProducts";
 import { loader as productDetailsLoader } from "./pages/ProductOverView";
 import { action as signupaction } from "./pages/Signup";
 import {loader as profileLoader} from "./pages/Profile";
-import {action as updateProfileAction} from "./pages/Profile"
+ 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
         element: <Profile />,
         loader:profileLoader,
         errorElement:<Error />,
-        action:updateProfileAction
+      
       },
       {
         path: "/update-profile",

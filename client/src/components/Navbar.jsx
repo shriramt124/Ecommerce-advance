@@ -42,10 +42,13 @@ function Navbar() {
               <button className="text-xl capitalize px-4 py-2 bg-slate-200 rounded-md ">
                 cart
               </button>
-              <button className="relative mb-2">
-                <button onMouseEnter={()=>setIsCategoryOpen(true)} className="  text-xl capitalize px-4 py-2 bg-slate-200 rounded-md ">
+              <button className="text-xl capitalize px-4 py-2 bg-slate-200 rounded-md ">
+                create product
+              </button>
+              <div className="relative mb-2">
+                <div onMouseEnter={()=>setIsCategoryOpen(true)} className="  text-xl capitalize px-4 py-2 bg-slate-200 rounded-md ">
                   categories
-                </button>
+                </div>
                {isCategoryOpen && <div  onMouseLeave={()=>setIsCategoryOpen(false)} className=" z-10 absolute flex flex-col p-1 gap-1 right-[140px]  -top-10 bg-slate-400 rounded-md ">
                   <button className="bg-slate-200 px-4 py-2 text-xl rounded-md ">
                     men
@@ -60,7 +63,7 @@ function Navbar() {
                     accessories
                   </button>
                 </div>}
-              </button>
+              </div>
             </div>
           </div>
         )}

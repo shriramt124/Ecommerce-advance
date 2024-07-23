@@ -21,7 +21,7 @@ const limiter = rateLimit({
 app.use(cors({
     origin: ['http://localhost:5173'], // allow requests from localhost:5173
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // allow these methods
-    headers: ['Content-Type', 'Authorization'] // allow these headers
+    allowedHeaders: ['Content-Type', 'Authorization'] // allow these headers
   }));
 
 //parsing the req body 
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(limiter);
 
-
+app.options('*', cors());
 
 
 app.use("/api/user", userRouter);

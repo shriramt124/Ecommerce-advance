@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-const ImagePicker = ({image,onChangeImage}) => {
-  const [fileList, setFileList] = useState([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: image,
-    },
-  ]);
-  
+const ImagePicker = ({onChangeImage}) => {
+  const [fileList, setFileList] = useState([]);
+  const [imageFile,setImageFile] = useState(null);
+
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    onChangeImage(newFileList[0].url)
+     if(newFileList[0]){
+      setImageFile(newFileList[0].originFileObj)
+      onChangeImage(imageFile)
+     }
+
   };
   const onPreview = async (file) => {
     let src = file.url;
@@ -26,17 +24,19 @@ const ImagePicker = ({image,onChangeImage}) => {
     }
     const image = new Image();
     image.src = src;
+    image.name = 'image'
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
   return (
     <ImgCrop rotationSlider>
       <Upload
-        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+         
         listType="picture-card"
         fileList={fileList}
         onChange={onChange}
         onPreview={onPreview}
+        name='image'
       >
         {fileList.length < 1 && '+ Upload'}
       </Upload>

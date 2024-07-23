@@ -104,11 +104,22 @@ export const getCurrentUser = async ()=>{
     }
 }
 
-export const updateProfile = async (newuser)=>{
-        try {
-        const res = await fetch("http://localhost:8000/api/user/")
-            
-        } catch (error) {
-            
+export async function updateProfile(data) {
+    try {
+      const response = await fetch('http://localhost:8000/api/user/update-profile', {
+        method: 'POST',
+        body: data, // This should be a FormData object
+        headers: {
+          'Authorization': `${localStorage.getItem('token')}` // Add any other necessary headers
         }
-}
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+  
