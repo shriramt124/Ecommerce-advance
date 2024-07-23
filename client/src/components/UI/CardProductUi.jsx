@@ -6,7 +6,7 @@ function CardProductUi({ product }) {
     <div className="relative hover:bg-slate-300 p-3 w-full  gap-2 justify-self-stretch  bg-slate-200 rounded-md flex flex-col">
       <img
         className=" h-[220px] rounded-md "
-        src={product.image}
+        src={product.prodImage[0]}
         alt="this is product"
       />
 
@@ -18,7 +18,7 @@ function CardProductUi({ product }) {
           Add to cart
         </button>
         <button className="capitalize font-semibold bg-pink-400 p-2 text-slate-200 rounded-md shadow-md hover:bg-pink-200 hover:text-black ">
-         <Link to="/product/1234">view more</Link> 
+         <Link to={`/product/${product._id}`}>view more</Link> 
         </button>
       </div>
     </div>

@@ -1,9 +1,12 @@
-import { products } from "../data.js"
  
 import CardProductUi from "../components/UI/CardProductUi.jsx";
+import { getAllProducts } from "../services/apihelper.js";
+import { useLoaderData } from "react-router-dom";
 
 function AllProducts() {
-  console.log(products);
+  const products = useLoaderData();
+
+  
   return (
     <div className="mt-4 flex flex-col justify-center ">
       <h1 className="text-center text-3xl sm:text-5xl capitalize">Products</h1>
@@ -11,12 +14,19 @@ function AllProducts() {
        
       {
         products.map((product) => (
-         <CardProductUi key={product.id} product={product}/>
+         <CardProductUi key={product._id} product={product}/>
         ))
       }
     </div>
     </div>
   )
+}
+export async function loader(){
+ 
+   const res =await getAllProducts();
+   
+   return res.data;
+
 }
 
 export default AllProducts

@@ -18,6 +18,8 @@ import UpdateProduct from "./pages/UpdateProduct";
 import AdminAllProduct from "./pages/AdminAllProduct";
 import { action as loginaction } from "./pages/Login";
 import Error from "./components/UI/Error";
+import { loader as productLoader } from "./pages/AllProducts";
+import {loader as productDetailsLoader} from "./pages/ProductOverView"
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -30,10 +32,15 @@ const router = createBrowserRouter([
       {
         path: "/allProducts",
         element: <AllProducts />,
+        loader:productLoader,
+        errorElement:<Error />
       },
       {
         path: "/product/:id",
         element: <ProductOverView />,
+        loader:productDetailsLoader,
+        errorElement:<Error />
+
       },
       {
         path: "/cart",

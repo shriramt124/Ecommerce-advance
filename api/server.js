@@ -18,12 +18,11 @@ const limiter = rateLimit({
     delayMs: 0 // disable delaying - full speed until the max limit is reached
 });
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-  });
+app.use(cors({
+    origin: ['http://localhost:5173'], // allow requests from localhost:5173
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // allow these methods
+    headers: ['Content-Type', 'Authorization'] // allow these headers
+  }));
 
 //parsing the req body 
 app.use(express.json());
