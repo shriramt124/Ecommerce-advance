@@ -16,7 +16,7 @@ import Checkout from "./pages/Checkout";
 import AccoutLayout from "./Layout/AccoutLayout";
 import UpdateProduct from "./pages/UpdateProduct";
 import AdminAllProduct from "./pages/AdminAllProduct";
-
+import { action as loginaction } from "./pages/Login";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -67,6 +67,7 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+        action:loginaction
       },
       {
         path: "/signup",
