@@ -23,16 +23,16 @@ export const login = async (username, password) => {
 }
 export const signup = async (newuser) => {
     try {
-        const res = await fetch("http://localhost:8000/api/user/signup", {
+        const res = await fetch("http://localhost:8000/api/user/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newuser)
         })
-
+        const { data } = res.json();
         if (!res.ok) {
             throw Error("failed to signup")
         }
-        const { data } = res.json();
+       
 
         return data;
     } catch (error) {

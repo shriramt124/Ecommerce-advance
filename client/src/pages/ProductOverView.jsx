@@ -1,9 +1,12 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { getSingleProduct } from "../services/apihelper";
+import CategoryStrip from "../components/CategoryStrip";
 
 function ProductOverView() {
   const product = useLoaderData();
   return (
+    <div> 
+      <CategoryStrip />
     <div className="bg-slate-200 p-4 sm:p-10 flex  flex-col justify-center ">
       <div className="flex flex-col sm:flex-row    m-auto justify-center gap-0">
         <div className="flex flex-col gap-4 w-[350px] xl:w-[600px] phone:w-[380px] sm:w-[400px] md:w-[500px] p-2 bg-white">
@@ -41,6 +44,7 @@ function ProductOverView() {
         </div>
       </div>
       <h1>category and overview</h1>
+    </div>
     </div>
   );
 }

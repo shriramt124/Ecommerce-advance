@@ -20,6 +20,7 @@ import { action as loginaction } from "./pages/Login";
 import Error from "./components/UI/Error";
 import { loader as productLoader } from "./pages/AllProducts";
 import {loader as productDetailsLoader} from "./pages/ProductOverView"
+import { action as signupaction } from "./pages/Signup";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -81,7 +82,11 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+        action:signupaction,
+        errorElement:<Error />
       },
+
+
 
       {
         path: "/admin/create-product",

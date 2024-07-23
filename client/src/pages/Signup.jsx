@@ -1,13 +1,27 @@
-import { Link } from "react-router-dom";
-
-const Signup = () => (
-  <div className="flex bg-pink-200 w-full justify-center items-center">
+import { useState } from "react";
+import { Link, redirect } from "react-router-dom";
+import { Form } from "react-router-dom";
+import { signup } from "../services/apihelper";
+const Signup = () => {
+  const [formdata,setformdata] = useState({
+    username:"",
+    email:"",
+    password:"",
+    role:"member",
+  })
+  function handleFormChange(e){
+        setformdata({
+          ...formdata,
+          [e.target.name]:e.target.value
+        })
+  }
+  return <div className="flex bg-pink-200 w-full justify-center items-center">
     <div className=" shadow-md shadow-slate-400 h-[600px] md:h-[700px] w-full p-10 flex justify-center ">
       <div className=" sm:w-[500px] h-full  hidden md:block relative bg-bg bg-cover bg-no-repeat bg-center">
         {" "}
       </div>
 
-      <form className=" w-[600px] h-full flex flex-col gap-2 sm:gap-4 px-4 bg-slate-200  rounded-md shadow-md shadow-slate-400 ">
+      <Form method="POST" className=" w-[600px] h-full flex flex-col gap-2 sm:gap-4 px-4 bg-slate-200  rounded-md shadow-md shadow-slate-400 ">
         <h1 className="text-center text-3xl pt-4 uppercase font-bold">Signup</h1>
         <div className="flex flex-col gap-2 sm:gap-2 mt-5">
           <label
@@ -20,6 +34,8 @@ const Signup = () => (
             type="text"
             name="username"
             id="username"
+            value={formdata.username}
+            onChange={handleFormChange}
             placeholder="enter usernam"
             className="p-2 rounded-md focus:bg-white bg-slate-100 border-2 border-pink-400  "
           />
@@ -32,9 +48,11 @@ const Signup = () => (
             Email
           </label>
           <input
-            type="text"
+            type="email"
             name="email"
             id="email"
+            value={formdata.email}
+            onChange={handleFormChange}
             placeholder="enter email"
             className="p-2 rounded-md focus:bg-white bg-slate-100 border-2 border-pink-400  "
           />
@@ -50,6 +68,10 @@ const Signup = () => (
             className="p-2 rounded-md focus:bg-white bg-slate-100 border-2 border-pink-400  "
             type="password"
             placeholder="enter password .."
+            name="password"
+            id="password"
+            value={formdata.password}
+            onChange={handleFormChange}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -59,7 +81,7 @@ const Signup = () => (
           >
             Role
           </label>
-          <select className="p-2 text-slate-800 capitalize rounded-md ">
+          <select name="role" value={formdata.role}   onChange={handleFormChange} className="p-2  text-slate-800 capitalize rounded-md ">
             <option value="member" className="w-full bg-pink-300 default">member</option>
             <option value="admin"  className="w-full bg-pink-300 default">admin</option>
           </select>
@@ -79,9 +101,20 @@ const Signup = () => (
           </span>
  
         </div>
-      </form>
+      </Form>
     </div>
   </div>
-);
+};
+
+export async function action({request}){
+   
+        const formdata = await request.formData();
+        const newuser =  Object.fromEntries(formdata);
+        console.log(newuser);
+        const res = await signup(newuser);
+        return redirect("/allProducts");
+         
+     
+}
 
 export default Signup;
