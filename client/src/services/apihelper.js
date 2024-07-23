@@ -84,3 +84,31 @@ export const getSingleProduct = async (id) => {
 
     }
 }
+
+export const getCurrentUser = async ()=>{
+    try {
+        const res = await fetch("http://localhost:8000/api/user/currentUser",{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`${localStorage.getItem('token')}`
+            }
+        })
+        const data = await res.json();
+        if(!res.ok){
+            throw Error(data.message);
+        }
+        return data;
+    } catch (error) {
+         throw Error(error.message);
+    }
+}
+
+export const updateProfile = async (newuser)=>{
+        try {
+        const res = await fetch("http://localhost:8000/api/user/")
+            
+        } catch (error) {
+            
+        }
+}

@@ -19,8 +19,10 @@ import AdminAllProduct from "./pages/AdminAllProduct";
 import { action as loginaction } from "./pages/Login";
 import Error from "./components/UI/Error";
 import { loader as productLoader } from "./pages/AllProducts";
-import {loader as productDetailsLoader} from "./pages/ProductOverView"
+import { loader as productDetailsLoader } from "./pages/ProductOverView";
 import { action as signupaction } from "./pages/Signup";
+import {loader as profileLoader} from "./pages/Profile";
+import {action as updateProfileAction} from "./pages/Profile"
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -33,15 +35,14 @@ const router = createBrowserRouter([
       {
         path: "/allProducts",
         element: <AllProducts />,
-        loader:productLoader,
-        errorElement:<Error />
+        loader: productLoader,
+        errorElement: <Error />,
       },
       {
         path: "/product/:id",
         element: <ProductOverView />,
-        loader:productDetailsLoader,
-        errorElement:<Error />
-
+        loader: productDetailsLoader,
+        errorElement: <Error />,
       },
       {
         path: "/cart",
@@ -55,19 +56,17 @@ const router = createBrowserRouter([
         path: "/order/:id",
         element: <OrderDetails />,
       },
+
       {
-        path: "/account",
-        element: <AccoutLayout />,
-        children: [
-          {
-            path: "/account/profile",
-            element: <Profile />,
-          },
-          {
-            path: "/account/update-profile",
-            element: <UpdateProfile />,
-          },
-        ],
+        path: "/profile",
+        element: <Profile />,
+        loader:profileLoader,
+        errorElement:<Error />,
+        action:updateProfileAction
+      },
+      {
+        path: "/update-profile",
+        element: <UpdateProfile />,
       },
       {
         path: "/search",
@@ -76,17 +75,15 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
-        action:loginaction,
-        errorElement:<Error />
+        action: loginaction,
+        errorElement: <Error />,
       },
       {
         path: "/signup",
         element: <Signup />,
-        action:signupaction,
-        errorElement:<Error />
+        action: signupaction,
+        errorElement: <Error />,
       },
-
-
 
       {
         path: "/admin/create-product",
