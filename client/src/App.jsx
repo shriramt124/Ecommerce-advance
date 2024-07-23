@@ -15,6 +15,7 @@ import OrderDetails from "./pages/OrderDetails";
 import Checkout from "./pages/Checkout";
 import AccoutLayout from "./Layout/AccoutLayout";
 import UpdateProduct from "./pages/UpdateProduct";
+import AdminAllProduct from "./pages/AdminAllProduct";
 
 const router = createBrowserRouter([
   {
@@ -73,13 +74,18 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/create-product",
+        path: "/admin/create-product",
         element: <CreateProduct />,
         role: "admin", // only accessible by admin
       },
       {
-        path: "/update-product/:id",
+        path: "/admin/update-product/:id",
         element: <UpdateProduct />,
+        role: "admin", // only accessible by admin
+      },
+      {
+        path: "/admin/allProduct",
+        element: <AdminAllProduct />,
         role: "admin", // only accessible by admin
       },
 
