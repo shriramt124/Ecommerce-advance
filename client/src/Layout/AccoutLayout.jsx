@@ -1,8 +1,14 @@
+import { Outlet } from "react-router-dom"
+import Profile from "../pages/Profile"
+
  
 
 function AccoutLayout() {
   return (
-    <div>AccoutLayout</div>
+    <div>
+      <Profile />
+      <Outlet />
+    </div>
   )
 }
 

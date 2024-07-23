@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./Layout/AppLayout";
 import Home from "./pages/Home";
 import AllProducts from "./pages/AllProducts";
@@ -25,84 +21,78 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Home />,
-        index: true
+        index: true,
       },
       {
-        path: '/allProducts',
-        element: <AllProducts />
+        path: "/allProducts",
+        element: <AllProducts />,
       },
       {
-        path: '/product/:id',
-        element: <ProductOverView />
+        path: "/product/:id",
+        element: <ProductOverView />,
       },
       {
-        path: '/cart',
-        element: <Cart />
+        path: "/cart",
+        element: <Cart />,
       },
       {
-        path: '/checkout',
-        element: <Checkout />
+        path: "/checkout",
+        element: <Checkout />,
       },
       {
-        path: '/order/:id',
-        element: <OrderDetails />
+        path: "/order/:id",
+        element: <OrderDetails />,
       },
       {
-        path: '/account',
+        path: "/account",
         element: <AccoutLayout />,
         children: [
           {
-            path: '/account/profile',
-            element: <Profile />
+            path: "/account/profile",
+            element: <Profile />,
           },
           {
-            path: '/account/update-profile',
-            element: <UpdateProfile />
-          }
-        ]
-      },
-      {
-        path: '/search',
-        element: <Home/>
-      },
-      {
-        path: '/login',
-        element: <Login />
-      },
-      {
-        path: '/signup',
-        element: <Signup />
-      },
-      {
-        path: '/admin',
-        element: <AdminLayout />,
-        children: [
-          {
-            path: '/admin/create-product',
-            element: <CreateProduct />,
-            role: 'admin' // only accessible by admin
+            path: "/account/update-profile",
+            element: <UpdateProfile />,
           },
-          {
-            path: '/admin/update-product/:id',
-            element: <UpdateProduct />,
-            role: 'admin' // only accessible by admin
-          }
-        ]
+        ],
       },
       {
-        path: '*',
-        element: <NotFound />
-      }
-    ]
-  }
+        path: "/search",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+
+      {
+        path: "/create-product",
+        element: <CreateProduct />,
+        role: "admin", // only accessible by admin
+      },
+      {
+        path: "/update-product/:id",
+        element: <UpdateProduct />,
+        role: "admin", // only accessible by admin
+      },
+
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+    ],
+  },
 ]);
 
- function App() {
-   return (
-      <RouterProvider router={router}/>
-   )
- }
- 
- export default App
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+export default App;

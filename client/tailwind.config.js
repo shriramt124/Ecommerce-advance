@@ -10,6 +10,10 @@
     extend: {
       backgroundImage:{
         'hero': "url('bg.jpg')",
+        'bg':"url('formBackground.jpg')"
+      },
+      screens:{
+        "phone":"400px"
       }
     },
   },
